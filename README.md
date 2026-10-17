@@ -51,6 +51,8 @@ cp .env.example .env
 # Edit .env dengan text editor dan isi:
 # - BOT_TOKEN: dari BotFather di Telegram
 # - ADMIN_ID: User ID Anda di Telegram
+# - OLT_HOST/OLT_USERNAME/OLT_PASSWORD: akses telnet OLT ZTE
+# - MT_HOST/MT_USERNAME/MT_PASSWORD: API MikroTik (port 8728)
 ```
 
 Untuk mendapatkan BOT_TOKEN:

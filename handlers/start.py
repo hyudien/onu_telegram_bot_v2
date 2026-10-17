@@ -55,8 +55,12 @@ async def access_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     """Handle access request approval/rejection"""
     
     query = update.callback_query
-    await query.answer()
     
+    if query.from_user.id != ADMIN_ID:
+        await query.answer("Hanya admin yang dapat melakukan ini", show_alert=True)
+        return
+    
+    await query.answer()
     data = query.data
     
     if data.startswith("acc_"):

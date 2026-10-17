@@ -26,3 +26,4 @@ OLT_PASSWORD = os.getenv("OLT_PASSWORD", "")
 
 # Debug mode
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+OLT_PORT = int(os.getenv("OLT_PORT", "23"))

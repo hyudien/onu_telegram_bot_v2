@@ -13,3 +13,7 @@ dist/
 build/
 .pytest_cache/
 .coverage
+
+# Runtime data
+data/allowed_users.json
+data/customers.json
