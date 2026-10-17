@@ -116,6 +116,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     
     if step == "mt_add_pass":
         context.user_data["mt_pass"] = text
+        context.user_data["step"] = None
         buttons = [
             [InlineKeyboardButton(p, callback_data=f"mt_profile_{p}")] for p in MT_PROFILES
         ]
@@ -123,6 +124,28 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             "📦 Pilih Profile",
             reply_markup=InlineKeyboardMarkup(buttons)
         )
+        return
+    
+    if step == "mt_add_comment":
+        router = get_router(context)
+        username = context.user_data["mt_user"]
+        password = context.user_data["mt_pass"]
+        profile = context.user_data["mt_profile"]
+        
+        try:
+            add_user(router, username, password, profile, text)
+            msg = (
+                f"✅ PPPoE BERHASIL DIBUAT\n\n"
+                f"👤 User : {username}\n"
+                f"🔑 Pass : {password}\n"
+                f"📦 Profile : {profile}\n"
+                f"📝 Comment : {text}"
+            )
+            await update.message.reply_text(msg)
+        except Exception as e:
+            await update.message.reply_text(f"❌ Error: {str(e)}")
+        finally:
+            clear_step(context)
         return
     
     # Delete user
@@ -274,28 +297,6 @@ async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         
         await query.edit_message_text(f"📦 Profile : {profile}")
         await query.message.reply_text("Masukkan Comment")
-        return
-    
-    if data == "mt_add_comment":
-        username = context.user_data["mt_user"]
-        password = context.user_data["mt_pass"]
-        profile = context.user_data["mt_profile"]
-        comment = ""
-        
-        try:
-            add_user(router, username, password, profile, comment)
-            msg = (
-                f"✅ PPPoE BERHASIL DIBUAT\n\n"
-                f"👤 User : {username}\n"
-                f"🔑 Pass : {password}\n"
-                f"📦 Profile : {profile}\n"
-                f"📝 Comment : {comment}"
-            )
-            await query.message.reply_text(msg)
-        except Exception as e:
-            await query.message.reply_text(f"❌ Error: {str(e)}")
-        finally:
-            clear_step(context)
         return
     
     # Delete confirmation

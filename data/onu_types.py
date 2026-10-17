@@ -1,0 +1,4 @@
+"""ONU types"""
+
+ONU_TYPES = ["ALL-ONT"]
+DEFAULT_ONU_TYPE = ONU_TYPES[0]
